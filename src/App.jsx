@@ -1,28 +1,27 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import SplashOnboarding from './components/SplashOnboarding';
+import RoleSwitcher from './components/RoleSwitcher';
+import UserApp from './components/UserApp';
+import AdminDashboard from './components/AdminDashboard';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
+  const [role, setRole] = useState('user');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Vibe Coding Platform
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Your AI-powered development environment
-        </p>
-        <div className="text-center">
-          <button
-            onClick={() => setCount(count + 1)}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Count is {count}
-          </button>
-        </div>
+    <div className="min-h-screen w-full bg-white text-[#111111] flex items-center justify-center">
+      <div className="w-full max-w-md h-[780px] max-h-[92vh] bg-white rounded-3xl border border-black/5 overflow-hidden shadow-[0_1px_0_#0000000f]">
+        {showSplash ? (
+          <SplashOnboarding onContinue={() => setShowSplash(false)} />
+        ) : (
+          <div className="flex flex-col h-full">
+            <RoleSwitcher role={role} onChange={setRole} />
+            <div className="flex-1 overflow-hidden">
+              {role === 'user' ? <UserApp /> : <AdminDashboard />}
+            </div>
+          </div>
+        )}
       </div>
     </div>
-  )
+  );
 }
-
-export default App
